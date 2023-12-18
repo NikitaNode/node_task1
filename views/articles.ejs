@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
+    <link rel="stylesheet" href="/css/1.css">
 </head>
 <body>
-    <% data.forEach(function(item) { %>
-<p><a href = 'http://localhost:3000/article/<%= item.idArticle %>'><%= item.titleArticle %> </a> </p>
-    <p>
-        <%= item.descriptionArticle %>
-    </p>
-    <% }); %>
+    <div class="article-list">
+        <% data.forEach(function(item) { %>
+            <div class="article-item">
+                <p><a href='http://localhost:3000/article/<%= item.idArticle %>'><%= item.titleArticle %></a></p>
+                <p><%= item.descriptionArticle %></p>
+            </div>
+        <% }); %>
+    </div>
 </body>
 </html>

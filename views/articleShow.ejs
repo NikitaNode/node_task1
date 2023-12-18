@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/1.css">
 </head>
 <body>
-    <%= data[0].titleArticle %>
-    <p>
-        <%= data[0].textArticle %>
-    </p>
+    <div class="article">
+        <h1 class="article-title"><%= data[0].titleArticle %></h1>
+        <p class="article-text"><%= data[0].textArticle %></p>
+    </div>
 </body>
 </html>

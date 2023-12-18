@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
+    <link rel="stylesheet" href="/css/1.css">
 </head>
 <body>
-    <% data.forEach(function(item) { %>
-<p><a href = 'http://localhost:3000/admin/<%= item.idArticle %>'><%= item.titleArticle %> </a> </p>
-    <p>
-        <%= item.descriptionArticle %>
-    </p>
-    <% }); %>
+    <div class="article-list">
+        <% data.forEach(function(item) { %>
+            <div class="article-item">
+                <p><a href='http://localhost:3000/admin/<%= item.idArticle %>'><%= item.titleArticle %></a></p>
+                <p><%= item.descriptionArticle %></p>
+            </div>
+        <% }); %>
+    </div>
 
     <div class="form">
         <h2>Добавить статью</h2>
@@ -28,24 +30,43 @@
             <button type="submit" id="sendArticle">Cоздать статью</button>
     </form>
 
-<script>
-    document.querySelector("#sendArticle").onclick=function()
-    {
-        event.stopPropagation(); 
-        let article={
-            'titleArticle':document.querySelector("#titleArticle").value, 
-            'textArticle':document.querySelector("#textArticle").value,
-            'descriptionArticle':document.querySelector("#descriptionArticle").value,
-        }
-        let promise=fetch('http://localhost:3000/admin/addArticle',{
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8'
-        },   
-        body: JSON.stringify(article)
-});
-    }
-</script>
+    <script>
+        // Получаем кнопку отправки формы
+        const sendArticleButton = document.querySelector('#sendArticle');
+    
+        // Добавляем обработчик события "click" на кнопку отправки формы
+        sendArticleButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Отменяем стандартное поведение кнопки (перезагрузку страницы)
+    
+            // Получаем данные формы
+            const titleArticle = document.querySelector('#titleArticle').value;
+            const textArticle = document.querySelector('#textArticle').value;
+            const descriptionArticle = document.querySelector('#descriptionArticle').value;
+    
+            // Отправляем данные на сервер
+            fetch('http://localhost:3000/admin/addArticle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    titleArticle,
+                    textArticle,
+                    descriptionArticle
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Если запрос был успешным, обновляем страницу
+                    window.location.reload();
+                } else {
+                    // Если запрос не был успешным, выводим сообщение об ошибке
+                    throw new Error('Ошибка при отправке данных на сервер');
+                }
+            })
+            .catch(error => console.error(error)); // Обрабатываем возможную ошибку
+        });
+    </script>
 
 
     </div>
